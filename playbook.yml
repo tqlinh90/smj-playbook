@@ -1,0 +1,54 @@
+- hosts: all # You can also specify an IP address
+  vars: # Define new variables
+    github_user: ""
+    github_token: ""
+    github_repo_url: https://{{ github_user }}:{{ github_token }}@github.com/smartjen/main.git
+    temp_directory: /tmp/html
+    beta_directory: /var/www/beta/
+  tasks:
+    - name: "Pull changes from GitHub"
+      git:
+        repo: "{{ github_repo_url }}" # This is how we can make this step reusable across projects
+        dest: "{{ temp_directory }}"
+        version: master # Branch to pull
+        accept_hostkey: yes
+      register: repo # Store the result of this task in a variable
+    - name: Ansible delete multiple file example
+      file:
+        path: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ temp_directory }}/.git"
+        - "{{ temp_directory }}/.htaccess"
+        - "{{ temp_directory }}/node_modules"
+        - "{{ temp_directory }}/system"
+        - "{{ temp_directory }}/application/config/config.php"
+        - "{{ temp_directory }}/application/models/Model_config.php"
+        - "{{ temp_directory }}/application/config/database.php"
+        - "{{ temp_directory }}/img/studentUpload"
+        - "{{ temp_directory }}/application/vendor/vendor"
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: "{{ temp_directory }}"
+        dest: "{{ beta_directory }}"
+        remote_src: yes
+        force: yes
+      when: repo.changed
+    # - name: Ansible copy files remote to remote
+    #   copy:
+    #     src: "{{ temp_directory }}"
+    #     dest: "{{ beta_directory }}"
+    #   remote_src: yes
+    #   when: repo.changed
+    # - name: "Install Composer dependencies"
+    #   script: composer install --no-scripts --no-dev
+    #   when: repo.changed # Only run this step if we actually pulled new changes from GitHub
+    # - name: "Cache the configuration"
+    #   script: "php artisan config:cache"
+    #   when: repo.changed # Only run if we pulled changes
+    # - name: "Clear the view cache"
+    #   script: "php artisan view:clear"
+    #   when: repo.changed # Only run if we pulled changes
+    # - name: "Run the migrations"
+    #   script: "php artisan migrate --force"
+    #   when: repo.changed # Only run if we pulled changes
