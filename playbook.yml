@@ -1,4 +1,5 @@
 - hosts: all # You can also specify an IP address
+  become: true
   vars: # Define new variables
     github_user: ""
     github_token: ""
@@ -34,6 +35,10 @@
         remote_src: yes
         force: yes
       when: repo.changed
+    - name: Reload service httpd, in all cases
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded      
     # - name: Ansible copy files remote to remote
     #   copy:
     #     src: "{{ temp_directory }}"
