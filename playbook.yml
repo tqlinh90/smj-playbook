@@ -28,9 +28,8 @@
         - "{{ temp_directory }}/.htaccess"
         - "{{ temp_directory }}/node_modules"
         - "{{ temp_directory }}/system"
-        - "{{ temp_directory }}/application/config/config.php"
+        - "{{ temp_directory }}/application/config"
         - "{{ temp_directory }}/application/models/Model_config.php"
-        - "{{ temp_directory }}/application/config/database.php"
         - "{{ temp_directory }}/img/studentUpload"
         - "{{ temp_directory }}/application/vendor/vendor"
     - name: Copy file with owner and permissions
@@ -40,26 +39,16 @@
         remote_src: yes
         force: yes
       when: repo.changed
+    - name: run compose in root folder
+      command: /usr/bin/composer update
+      args:
+        chdir: "{{ beta_directory }}/html"
+    - name: run compose in root folder
+      command: /usr/bin/composer update
+      args:
+        chdir: "{{ beta_directory }}/html/application"
     - name: Reload service httpd, in all cases
       ansible.builtin.service:
         name: apache2
         state: reloaded
-  
-    # - name: Ansible copy files remote to remote
-    #   copy:
-    #     src: "{{ temp_directory }}"
-    #     dest: "{{ beta_directory }}"
-    #   remote_src: yes
-    #   when: repo.changed
-    # - name: "Install Composer dependencies"
-    #   script: composer install --no-scripts --no-dev
-    #   when: repo.changed # Only run this step if we actually pulled new changes from GitHub
-    # - name: "Cache the configuration"
-    #   script: "php artisan config:cache"
-    #   when: repo.changed # Only run if we pulled changes
-    # - name: "Clear the view cache"
-    #   script: "php artisan view:clear"
-    #   when: repo.changed # Only run if we pulled changes
-    # - name: "Run the migrations"
-    #   script: "php artisan migrate --force"
-    #   when: repo.changed # Only run if we pulled changes
+
