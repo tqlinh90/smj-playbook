@@ -30,14 +30,17 @@
         - "{{ temp_directory }}/system"
         - "{{ temp_directory }}/application/config"
         - "{{ temp_directory }}/application/models/Model_config.php"
-        - "{{ temp_directory }}/img/studentUpload"
+        - "{{ temp_directory }}/img"
         - "{{ temp_directory }}/application/vendor/vendor"
+        - "{{ temp_directory }}/uploaded_file"
+
     - name: Copy file with owner and permissions
-      ansible.builtin.copy:
-        src: "{{ temp_directory }}"
-        dest: "{{ beta_directory }}"
-        remote_src: yes
-        force: yes
+      command: cp -rf "{{ temp_directory }}" "{{ beta_directory }}"
+      # ansible.builtin.copy:
+      #   src: "{{ temp_directory }}"
+      #   dest: "{{ beta_directory }}"
+      #   remote_src: yes
+      #   force: yes
       when: repo.changed
     - name: run compose in root folder
       command: /usr/bin/composer update
@@ -51,4 +54,4 @@
       ansible.builtin.service:
         name: apache2
         state: reloaded
-
+   
