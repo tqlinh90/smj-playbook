@@ -42,11 +42,11 @@
       #   remote_src: yes
       #   force: yes
       when: repo.changed
-    - name: run compose in root folder
-      command: /usr/bin/composer update
+    - name: run compose install on application folder
+      command: /usr/bin/composer install
       args:
-        chdir: "{{ beta_directory }}/html"
-    - name: run compose in root folder
+        chdir: "{{ beta_directory }}/html/application"
+    - name: run compose update on application folder
       command: /usr/bin/composer update
       args:
         chdir: "{{ beta_directory }}/html/application"
