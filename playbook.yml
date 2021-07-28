@@ -3,7 +3,7 @@
   vars: # Define new variables
     github_user: ""
     github_token: ""
-    github_repo_url: https://{{ github_user }}:{{ github_token }}@github.com/smartjen/main.git
+    github_repo_url: https://{{ github_user }}:{{ github_token }}@github.com/smartjen/{{ repo_name }}.git
     temp_directory: /tmp/html
     beta_directory: /var/www/beta/
   tasks:
