@@ -56,7 +56,7 @@
       #   dest: "{{ beta_directory }}"
       #   remote_src: yes
       #   force: yes
-      when: repo.changed
+#       when: repo.changed
     - name: run compose install on application folder
       command: /usr/bin/composer install
       args:
