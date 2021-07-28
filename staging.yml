@@ -13,6 +13,10 @@
         dest: /tmp/
 #         remote_src: yes
 #         force: yes
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ temp_directory }}"
+        state: directory
     - name: Unarchive a file that is already on the remote machine
       ansible.builtin.unarchive:
         src: /tmp/code.zip
