@@ -43,15 +43,16 @@
       #   force: yes
       when: repo.changed
     - name: run compose install on application folder
+      become_user: ubuntu
       command: /usr/bin/composer install
       args:
         chdir: "{{ beta_directory }}/html/application"
-    - name: run compose update on application folder
-      command: /usr/bin/composer update
-      args:
-        chdir: "{{ beta_directory }}/html/application"
+#    - name: run compose update on application folder
+#      become_user: ubuntu
+#      command: /usr/bin/composer update
+#      args:
+#        chdir: "{{ beta_directory }}/html/application"
     - name: Reload service httpd, in all cases
       ansible.builtin.service:
         name: apache2
         state: reloaded
-   
