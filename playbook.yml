@@ -25,7 +25,6 @@
         state: absent
       with_items:
         - "{{ temp_directory }}/.git"
-        - "{{ temp_directory }}/.htaccess"
         - "{{ temp_directory }}/node_modules"
         - "{{ temp_directory }}/system"
         - "{{ temp_directory }}/application/config"
