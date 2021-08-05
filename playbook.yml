@@ -43,6 +43,18 @@
       #   remote_src: yes
       #   force: yes
       when: repo.changed
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ beta_directory }}/html/application/vendor"
+        state: directory
+        mode: '0775'      
+    - name: Recursively change ownership of a directory
+      ansible.builtin.file:
+        path: "{{ beta_directory }}/html/application/vendor"
+        state: directory
+        recurse: yes
+        owner: www-data
+        group: www-data
     - name: run compose install on application folder
       become_user: ubuntu
       command: /usr/bin/composer install
