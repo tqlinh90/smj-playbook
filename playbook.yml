@@ -55,6 +55,14 @@
         recurse: yes
         owner: www-data
         group: www-data
+    - name: Change file ownership, group and permissions
+      ansible.builtin.file:
+        path: /etc/foo.conf
+        owner: www-data
+        group: www-data
+        mode: '0775'    
+        recurse: yes
+        
     - name: run compose install on application folder
       become_user: ubuntu
       command: /usr/bin/composer install
