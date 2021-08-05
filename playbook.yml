@@ -47,7 +47,7 @@
       ansible.builtin.file:
         path: "{{ beta_directory }}/html/application/vendor"
         state: directory
-        mode: '0775'      
+        mode: "0775"
     - name: Recursively change ownership of a directory
       ansible.builtin.file:
         path: "{{ beta_directory }}/html/application/vendor"
@@ -55,24 +55,22 @@
         recurse: yes
         owner: www-data
         group: www-data
-    - name: Change file ownership, group and permissions
-      ansible.builtin.file:
-        path: /etc/foo.conf
-        owner: www-data
-        group: www-data
-        mode: '0775'    
-        recurse: yes
-        
+    - name: Ensure directories are 0775
+      command: find "{{ beta_directory }}/html/application/vendor" -type d -exec chmod 0775 {} \;
+
+    - name: Ensure files are 0644
+      command: find "{{ beta_directory }}/html/application/vendor" -type f -exec chmod 0775 {} \;
+
     - name: run compose install on application folder
       become_user: ubuntu
       command: /usr/bin/composer install
       args:
         chdir: "{{ beta_directory }}/html/application"
-#    - name: run compose update on application folder
-#      become_user: ubuntu
-#      command: /usr/bin/composer update
-#      args:
-#        chdir: "{{ beta_directory }}/html/application"
+    #    - name: run compose update on application folder
+    #      become_user: ubuntu
+    #      command: /usr/bin/composer update
+    #      args:
+    #        chdir: "{{ beta_directory }}/html/application"
     - name: Reload service httpd, in all cases
       ansible.builtin.service:
         name: apache2
