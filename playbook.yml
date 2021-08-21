@@ -27,6 +27,8 @@
       with_items:
         - "{{ temp_directory }}/.git"
         - "{{ temp_directory }}/.htaccess"
+        - "{{ temp_directory }}/.vscode"
+        - "{{ temp_directory }}/.svn"        
         - "{{ temp_directory }}/node_modules"
         - "{{ temp_directory }}/system"
         - "{{ temp_directory }}/application/config"
