@@ -32,28 +32,29 @@ def createLaunchConfig(oldlc, amiID):
     oname = str(oldlc['LaunchConfigurationName'])
     ctime = datetime.now().strftime('%Y%m%d%H%M%S')
     name = "{}-{}".format(oname, ctime)
+    blockdevicemapping=[{ "DeviceName": "/dev/xvda", "Ebs": { "VolumeSize": 101 } }]
     if not oldlc:
         print("Not have info from aws launch config")
     elif hasattr(oldlc, 'AssociatePublicIpAddress') and hasattr(oldlc, 'IamInstanceProfile'):
         test = awsConnect('autoscaling').create_launch_configuration(LaunchConfigurationName=name, ImageId=amiID, KeyName=oldlc['KeyName'], SecurityGroups=oldlc['SecurityGroups'], ClassicLinkVPCSecurityGroups=oldlc['ClassicLinkVPCSecurityGroups'], UserData=oldlc[
-            'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=oldlc['BlockDeviceMappings'], InstanceMonitoring=oldlc['InstanceMonitoring'],
+            'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=blockdevicemapping, InstanceMonitoring=oldlc['InstanceMonitoring'],
             IamInstanceProfile=oldlc['IamInstanceProfile'],
             EbsOptimized=oldlc['EbsOptimized'], AssociatePublicIpAddress=oldlc["AssociatePublicIpAddress"])
     elif not hasattr(oldlc, 'AssociatePublicIpAddress') and not hasattr(oldlc, 'IamInstanceProfile'):
         test = awsConnect('autoscaling').create_launch_configuration(LaunchConfigurationName=name, ImageId=amiID, KeyName=oldlc['KeyName'], SecurityGroups=oldlc['SecurityGroups'], ClassicLinkVPCSecurityGroups=oldlc['ClassicLinkVPCSecurityGroups'], UserData=oldlc[
-            'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=oldlc['BlockDeviceMappings'], InstanceMonitoring=oldlc['InstanceMonitoring'],
+            'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=blockdevicemapping, InstanceMonitoring=oldlc['InstanceMonitoring'],
             # IamInstanceProfile=oldlc['IamInstanceProfile'],
             EbsOptimized=oldlc['EbsOptimized'],
             # AssociatePublicIpAddress=oldlc["AssociatePublicIpAddress"]
         )
     elif not hasattr(oldlc, 'IamInstanceProfile'):
         test = awsConnect('autoscaling').create_launch_configuration(LaunchConfigurationName=name, ImageId=amiID, KeyName=oldlc['KeyName'], SecurityGroups=oldlc['SecurityGroups'], ClassicLinkVPCSecurityGroups=oldlc['ClassicLinkVPCSecurityGroups'], UserData=oldlc[
-            'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=oldlc['BlockDeviceMappings'], InstanceMonitoring=oldlc['InstanceMonitoring'],
+            'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=blockdevicemapping, InstanceMonitoring=oldlc['InstanceMonitoring'],
             # IamInstanceProfile=oldlc['IamInstanceProfile'],
             EbsOptimized=oldlc['EbsOptimized'], AssociatePublicIpAddress=oldlc["AssociatePublicIpAddress"])
     else:
         test = awsConnect('autoscaling').create_launch_configuration(LaunchConfigurationName=name, ImageId=amiID, KeyName=oldlc['KeyName'], SecurityGroups=oldlc['SecurityGroups'], ClassicLinkVPCSecurityGroups=oldlc['ClassicLinkVPCSecurityGroups'], UserData=oldlc[
-            'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=oldlc['BlockDeviceMappings'], InstanceMonitoring=oldlc['InstanceMonitoring'],
+            'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=blockdevicemapping, InstanceMonitoring=oldlc['InstanceMonitoring'],
             # IamInstanceProfile=oldlc['IamInstanceProfile'],
             EbsOptimized=oldlc['EbsOptimized'],
             AssociatePublicIpAddress=oldlc["AssociatePublicIpAddress"]
