@@ -28,8 +28,8 @@ def createImages(instanceId):
     return newImageId['ImageId']
 
 
-def createLaunchConfig(oldlc, amiID):
-    oname = str(oldlc['LaunchConfigurationName'])
+def createLaunchConfig(autoscalingName, oldlc, amiID):
+    oname = autoscalingName
     ctime = datetime.now().strftime('%Y%m%d%H%M%S')
     name = "{}-{}".format(oname, ctime)
     blockdevicemapping=[{ "DeviceName": "/dev/xvda", "Ebs": { "VolumeSize": 101 } }]
@@ -91,7 +91,7 @@ for i in autoscalingName:
             LaunchConfigurationNames=[lcName],)
         existlcConfig = response['LaunchConfigurations'][0]
 
-        newLauchConfig = createLaunchConfig(existlcConfig, amiID)
+        newLauchConfig = createLaunchConfig(autoscalingName,existlcConfig, amiID)
         print('New launch config {}'.format(newLauchConfig))
         awsConnect('autoscaling').update_auto_scaling_group(
             AutoScalingGroupName=i, LaunchConfigurationName=newLauchConfig)
