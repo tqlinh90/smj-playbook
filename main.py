@@ -91,7 +91,7 @@ for i in autoscalingName:
             LaunchConfigurationNames=[lcName],)
         existlcConfig = response['LaunchConfigurations'][0]
 
-        newLauchConfig = createLaunchConfig(autoscalingName,existlcConfig, amiID)
+        newLauchConfig = createLaunchConfig(autoscalingName[0],existlcConfig, amiID)
         print('New launch config {}'.format(newLauchConfig))
         awsConnect('autoscaling').update_auto_scaling_group(
             AutoScalingGroupName=i, LaunchConfigurationName=newLauchConfig)
