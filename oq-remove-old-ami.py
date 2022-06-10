@@ -46,9 +46,3 @@ else:
         awsConnect('ec2').deregister_image(ImageId=ami_id[1])
         print ("delete snapshot {}".format(ami_id[0]))
         awsConnect('ec2').delete_snapshot(SnapshotId=ami_id[2])
-© 2022 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
