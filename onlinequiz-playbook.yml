@@ -1,0 +1,15 @@
+- hosts: all # You can also specify an IP address
+  become: true
+  vars: # Define new variables
+#    BUDDY_EXECUTION_REVISION_SHOR: buddy
+#    container_name: online_quiz
+  tasks:
+    - name: remove container
+      ansible.builtin.shell:
+        cmd: docker stop "{{container_name}}" || true && docker rm "{{container_name}}" || true
+    - name: log in
+      ansible.builtin.shell:
+        cmd: aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz
+    - name: run container
+      ansible.builtin.shell:
+        cmd: docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
