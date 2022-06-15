@@ -1,9 +1,9 @@
 - hosts: all # You can also specify an IP address
   become: true
   environment:
-  AWS_ACCESS_KEY_ID: {{ AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: {{ AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: ap-southeast-1
+    AWS_ACCESS_KEY_ID: "{{ AWS_ACCESS_KEY_ID }}"
+    AWS_SECRET_ACCESS_KEY: "{{ AWS_SECRET_ACCESS_KEY }}"
+    AWS_DEFAULT_REGION: "ap-southeast-1"
   vars: # Define new variables
 #    BUDDY_EXECUTION_REVISION_SHOR: buddy
 #    container_name: online_quiz
