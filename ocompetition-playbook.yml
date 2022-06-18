@@ -16,7 +16,7 @@
         cmd: aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/onlinequiz
     - name: run container
       ansible.builtin.shell:
-        cmd: docker run -d --log-driver=awslogs --log-opt awslogs-region=ap-southeast-1 --log-opt awslogs-group=online-compettion-LogGroup --log-opt awslogs-create-group=true --name {{container_name}} --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 80:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/onlinequiz:{{ BUDDY_EXECUTION_REVISION_SHOR }}
+        cmd: docker run -d --log-driver=awslogs --log-opt awslogs-region=ap-southeast-1 --log-opt awslogs-group=OnlineCompettionLogGroup --log-opt awslogs-create-group=true --name {{container_name}} --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 80:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/onlinequiz:{{ BUDDY_EXECUTION_REVISION_SHOR }}
     - name: run migrate 
       ansible.builtin.shell:
         cmd: docker exec -it {{container_name}} php artisan migrate --force
