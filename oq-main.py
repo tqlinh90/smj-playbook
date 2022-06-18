@@ -43,19 +43,19 @@ def createLaunchConfig(autoscalingName, oldlc, amiID):
     elif not hasattr(oldlc, 'AssociatePublicIpAddress') and not hasattr(oldlc, 'IamInstanceProfile'):
         test = awsConnect('autoscaling').create_launch_configuration(LaunchConfigurationName=name, ImageId=amiID, KeyName=oldlc['KeyName'], SecurityGroups=oldlc['SecurityGroups'], ClassicLinkVPCSecurityGroups=oldlc['ClassicLinkVPCSecurityGroups'], UserData=oldlc[
             'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=blockdevicemapping, InstanceMonitoring=oldlc['InstanceMonitoring'],
-            # IamInstanceProfile=oldlc['IamInstanceProfile'],
+            IamInstanceProfile=oldlc['IamInstanceProfile'],
             EbsOptimized=oldlc['EbsOptimized'],
             # AssociatePublicIpAddress=oldlc["AssociatePublicIpAddress"]
         )
     elif not hasattr(oldlc, 'IamInstanceProfile'):
         test = awsConnect('autoscaling').create_launch_configuration(LaunchConfigurationName=name, ImageId=amiID, KeyName=oldlc['KeyName'], SecurityGroups=oldlc['SecurityGroups'], ClassicLinkVPCSecurityGroups=oldlc['ClassicLinkVPCSecurityGroups'], UserData=oldlc[
             'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=blockdevicemapping, InstanceMonitoring=oldlc['InstanceMonitoring'],
-            # IamInstanceProfile=oldlc['IamInstanceProfile'],
+            IamInstanceProfile=oldlc['IamInstanceProfile'],
             EbsOptimized=oldlc['EbsOptimized'], AssociatePublicIpAddress=oldlc["AssociatePublicIpAddress"])
     else:
         test = awsConnect('autoscaling').create_launch_configuration(LaunchConfigurationName=name, ImageId=amiID, KeyName=oldlc['KeyName'], SecurityGroups=oldlc['SecurityGroups'], ClassicLinkVPCSecurityGroups=oldlc['ClassicLinkVPCSecurityGroups'], UserData=oldlc[
             'UserData'], InstanceType=oldlc['InstanceType'], BlockDeviceMappings=blockdevicemapping, InstanceMonitoring=oldlc['InstanceMonitoring'],
-            # IamInstanceProfile=oldlc['IamInstanceProfile'],
+            IamInstanceProfile=oldlc['IamInstanceProfile'],
             EbsOptimized=oldlc['EbsOptimized'],
             AssociatePublicIpAddress=oldlc["AssociatePublicIpAddress"]
         )
