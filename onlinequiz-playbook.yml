@@ -19,7 +19,5 @@
     - name: run config cache 
       ansible.builtin.shell:
         cmd: docker exec -it {{container_name}} php artisan config:cache   
-    - name: run migrate 
-      ansible.builtin.shell:
-        cmd: docker exec -it {{container_name}} php artisan migrate --force
+
 
