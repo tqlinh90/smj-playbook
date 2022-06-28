@@ -13,9 +13,10 @@
     - name: run container
       ansible.builtin.shell:
         cmd: docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
-    - name: run migrate 
-      ansible.builtin.shell:
-        cmd: docker exec -it {{container_name}} php artisan migrate --force
     - name: run config cache 
       ansible.builtin.shell:
         cmd: docker exec -it {{container_name}} php artisan config:cache   
+    - name: run migrate 
+      ansible.builtin.shell:
+        cmd: docker exec -it {{container_name}} php artisan migrate --force
+
