@@ -22,10 +22,14 @@
 #        cmd: rm -rf /var/www/html/bootstrap/cache/*        
     - name: run container
       ansible.builtin.shell:
-        cmd: docker run -d --log-driver=awslogs --log-opt awslogs-region=ap-southeast-1 --log-opt awslogs-group=OnlineCompettionLogGroup --log-opt awslogs-create-group=true --name {{container_name}} --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 80:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/onlinequiz:{{ BUDDY_EXECUTION_REVISION_SHOR }} 
-    - name: run config cache 
+        cmd: docker run -d --log-driver=awslogs --log-opt awslogs-region=ap-southeast-1 --log-opt awslogs-group=OnlineCompettionLogGroup --log-opt awslogs-create-group=true --name {{container_name}} --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env  -p 80:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/onlinequiz:{{ BUDDY_EXECUTION_REVISION_SHOR }} 
+    - name: run auto load
       ansible.builtin.shell:
-        cmd: docker exec -it {{container_name}} php artisan config:cache   
+        cmd: docker exec -it {{container_name}} php composer.phar dump-autoload        
+#        cmd: docker run -d --log-driver=awslogs --log-opt awslogs-region=ap-southeast-1 --log-opt awslogs-group=OnlineCompettionLogGroup --log-opt awslogs-create-group=true --name {{container_name}} --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 80:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/onlinequiz:{{ BUDDY_EXECUTION_REVISION_SHOR }} 
+#     - name: run config cache 
+#       ansible.builtin.shell:
+#         cmd: docker exec -it {{container_name}} php artisan config:cache   
     - name: run migrate 
       ansible.builtin.shell:
         cmd: docker exec -it {{container_name}} php artisan migrate --force
