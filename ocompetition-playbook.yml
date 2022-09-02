@@ -8,6 +8,9 @@
 #    BUDDY_EXECUTION_REVISION_SHOR: buddy
 #    container_name: online_quiz
   tasks:
+    - name: remove image
+      ansible.builtin.shell:
+        cmd: echo y | docker system prune -a
     - name: remove container
       ansible.builtin.shell:
         cmd: docker stop "{{container_name}}" || true && docker rm "{{container_name}}" || true
