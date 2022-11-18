@@ -19,7 +19,10 @@
           cmd: aws s3 cp s3://smartjen-env/onlinequizv2/.env /etc/stg-sj-onlinequiz/.env
       - name: remove container
         ansible.builtin.shell:
-          cmd: docker stop "{{container_name}}" || true && docker rm "{{container_name}}" || true        
+          cmd: docker stop "{{container_name}}" || true && docker rm "{{container_name}}" || true     
+      - name: remove queue container
+        ansible.builtin.shell:
+          cmd: docker stop "{{container_name}}_queue" || true && docker rm "{{container_name}}_queue" || true               
       - name: run container
         ansible.builtin.shell:
           cmd: docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
