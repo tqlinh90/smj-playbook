@@ -19,7 +19,7 @@
         cmd: aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/onlinequiz
     - name: download env 
       ansible.builtin.shell:
-        cmd: aws s3 cp -rf s3://smartjen-env/onlinecompetition/.env /etc/stg-sj-onlinequiz/.env
+        cmd: aws s3 cp s3://smartjen-env/onlinecompetition/.env /etc/stg-sj-onlinequiz/.env
 #    - name: remove cache
 #      ansible.builtin.shell:
 #        cmd: rm -rf /var/www/html/bootstrap/cache/*        
