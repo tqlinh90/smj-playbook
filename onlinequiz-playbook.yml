@@ -41,7 +41,8 @@
           - "viva_new"
           - "ep"
           - "sam"
-          - "saas_heyhi"          
+          - "saas_heyhi"  
+        ignore_errors: yes  
       rescue:
         - name: remove container
           ansible.builtin.shell:
