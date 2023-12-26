@@ -35,7 +35,6 @@
       - name: run migrate 
         ansible.builtin.shell:
           cmd: docker exec -it {{container_name}} php artisan migrate --database="mysql" --force;php artisan migrate --database="vivan" --force;php artisan migrate --database="viva_new" --force;php artisan migrate --database="ep" --force;php artisan migrate --database="sam" --force;php artisan migrate --database="saas_heyhi" --force
-          run_once: true
       rescue:
         - name: remove container
           ansible.builtin.shell:
