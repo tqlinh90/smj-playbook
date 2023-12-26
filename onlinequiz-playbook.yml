@@ -34,7 +34,14 @@
           cmd: docker run -d --name "{{container_name}}_queue" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work          
       - name: run migrate 
         ansible.builtin.shell:
-          cmd: docker exec -it {{container_name}} php artisan migrate --database="mysql" --force;php artisan migrate --database="vivan" --force;php artisan migrate --database="viva_new" --force;php artisan migrate --database="ep" --force;php artisan migrate --database="sam" --force;php artisan migrate --database="saas_heyhi" --force
+          cmd: docker exec -it {{container_name}} php artisan migrate --database="{{ item }}" --force
+        loop:   
+          - "mysql"
+          - "vivan"
+          - "viva_new"
+          - "ep"
+          - "sam"
+          - "saas_heyhi"          
       rescue:
         - name: remove container
           ansible.builtin.shell:
