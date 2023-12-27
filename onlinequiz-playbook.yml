@@ -51,7 +51,7 @@
         loop:   
           - "mysql"
           - "vivan"
-          - "viva_new"
+          - "viva"
           - "ep"
           - "sam"
           - "saas_heyhi"  
