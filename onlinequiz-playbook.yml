@@ -12,9 +12,20 @@
       - name: remove image
         ansible.builtin.shell:
           cmd: echo y | docker system prune -a
+      - name: Update apt cache
+        apt:
+          update_cache: yes
+      - name: Install jq
+        apt:
+          name: jq
+          state: present
+      - name: Install curl
+        apt:
+          name: curl
+          state: present          
       - name: log in
         ansible.builtin.shell:
-          cmd: aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz
+          cmd: aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz          
       - name: Run script to generate .env file
         shell: |
           curl -o get_env.sh https://raw.githubusercontent.com/tqlinh90/smj-playbook/refs/heads/main/get_env.sh 
