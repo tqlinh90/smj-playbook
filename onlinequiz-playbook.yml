@@ -49,7 +49,9 @@
         with_items:
           - docker stop "{{container_name}}_queue" || true && docker rm "{{container_name}}_queue" || true     
           - docker run -d --name "{{container_name}}_queue" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work          
-                            
+          - docker stop "{{container_name}}_queue2" || true && docker rm "{{container_name}}_queue2" || true     
+          - docker run -d --name "{{container_name}}_queue2" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work --queue=SJ_AfterRubricMarking sqs-plain         
+                                             
       # - name: remove queue container
       #   ansible.builtin.shell:
       #     cmd: docker stop "{{container_name}}_queue" || true && docker rm "{{container_name}}_queue" || true               
