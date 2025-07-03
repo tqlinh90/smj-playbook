@@ -42,22 +42,22 @@
           cmd: "{{ item }}"   
         with_items:
           - docker stop "{{container_name}}" || true && docker rm "{{container_name}}" || true  
-          - docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
+          - docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env  -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
       - name: remove and run queue container
         ansible.builtin.shell:
           cmd: "{{ item }}"   
         with_items:
           - docker stop "{{container_name}}_queue" || true && docker rm "{{container_name}}_queue" || true     
-          - docker run -d --name "{{container_name}}_queue" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw  799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work          
+          - docker run -d --name "{{container_name}}_queue" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env   799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work          
           - docker stop "{{container_name}}_queue2" || true && docker rm "{{container_name}}_queue2" || true     
-          - docker run -d --name "{{container_name}}_queue2" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw  799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work --queue=SJ_AfterRubricMarking sqs-plain         
+          - docker run -d --name "{{container_name}}_queue2" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env   799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work --queue=SJ_AfterRubricMarking sqs-plain         
                                              
       # - name: remove queue container
       #   ansible.builtin.shell:
       #     cmd: docker stop "{{container_name}}_queue" || true && docker rm "{{container_name}}_queue" || true               
       # - name: run container
       #   ansible.builtin.shell:
-      #     cmd: docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
+      #     cmd: docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env  -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
       # - name: run config clear 
       #   ansible.builtin.shell:
       #     cmd: docker exec -it {{container_name}} php artisan optimize:clear      
@@ -67,7 +67,7 @@
       #     cmd: docker exec -it {{container_name}} php artisan optimize      
       # - name: run container queue
       #   ansible.builtin.shell:
-      #     cmd: docker run -d --name "{{container_name}}_queue" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work          
+      #     cmd: docker run -d --name "{{container_name}}_queue" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env  -v /var/www/stg-sj-onlinequiz/html/cache:/var/www/html/bootstrap/cache:rw 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}" php artisan queue:work          
       - name: run migrate 
         ansible.builtin.shell:
           cmd: docker exec -it {{container_name}} php artisan migrate --database="{{ item }}" --force
@@ -85,4 +85,4 @@
             cmd: docker stop "{{container_name}}" || true && docker rm "{{container_name}}" || true        
         - name: rerun older image
           ansible.builtin.shell:
-            cmd: docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /var/www/stg-sj-onlinequiz/html/storage:/var/www/html/storage:rw  -p 81:80 $old_image
+            cmd: docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env   -p 81:80 $old_image
