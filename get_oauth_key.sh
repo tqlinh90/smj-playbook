@@ -1,5 +1,11 @@
 #!/bin/bash
+# Reads 'my_oauth_key.pem' and creates a valid JSON payload
+#JSON_PAYLOAD=$(jq -n --arg key "$(cat my_oauth_key.pem)" '{"oauth_key": $key}')
 
+# Writes that payload to AWS
+#aws secretsmanager create-secret \
+#    --name my-oauth-secret-text \
+#    --secret-string "$JSON_PAYLOAD"
 # Ensure the SECRET_NAME environment variable is set
 if [ -z "$SECRET_NAME" ]; then
   echo "Environment variable SECRET_NAME is not set."
