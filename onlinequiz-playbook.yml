@@ -48,7 +48,7 @@
         with_items:
           - docker pull 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
           - docker stop "{{container_name}}" || true && docker rm "{{container_name}}" || true  
-          - docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /etc/stg-sj-onlinequiz/oauth-private.key:/var/www/html/storage/oauth-private.key -v /etc/stg-sj-onlinequiz/oauth-public.key:/var/www/html/storage/oauth-public.key -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
+          - docker run -d --name "{{container_name}}" --restart=always -v /etc/stg-sj-onlinequiz/.env:/var/www/html/.env -v /etc/stg-sj-onlinequiz/oauth-private.key:/var/www/html/storage/oauth-private.key:ro -v /etc/stg-sj-onlinequiz/oauth-public.key:/var/www/html/storage/oauth-public.key:ro -p 81:80 799941573255.dkr.ecr.ap-southeast-1.amazonaws.com/sj-onlinequiz:"{{ BUDDY_EXECUTION_REVISION_SHOR }}"
       - name: remove and run queue container
         ansible.builtin.shell:
           cmd: "{{ item }}"   
