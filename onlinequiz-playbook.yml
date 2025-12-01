@@ -34,7 +34,7 @@
           export SECRET_NAME="{{ secret_name }}"
           bash get_env.sh
           mv -f .env /etc/stg-sj-onlinequiz/
-          curl -o get_oauth_key.sh https://raw.githubusercontent.com/tqlinh90/smj-playbook/main/get_oauth_key.sh
+          curl https://raw.githubusercontent.com/tqlinh90/smj-playbook/main/get_oauth_key.sh > get_oauth_key.sh
           chmod +x get_oauth_key.sh
           export SECRET_NAME="{{ secret_oauth_key_name }}"  
           bash get_oauth_key.sh
