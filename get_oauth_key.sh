@@ -15,13 +15,13 @@ fi
 REGION_NAME="ap-southeast-1"
 
 # Retrieve the secret value using AWS CLI
-SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --region $REGION_NAME --query SecretString --output text)
-echo $SECRET_VALUE
+SECRET_VALUE=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --region $REGION_NAME --query SecretString --output text )
+printf "%b" $SECRET_VALUE
 # Check if the secret was retrieved successfully
 if [ -z "$SECRET_VALUE" ]; then
   echo "Failed to retrieve secret."
   exit 1
 fi
 
-echo "$SECRET_VALUE" | jq -r  '."oauth-private.key"' > oauth-private.key
-echo "$SECRET_VALUE" | jq -r  '."oauth-public.key"' > oauth-public.key
+printf  "$SECRET_VALUE"  | jq -r  '."oauth-private.key"' > oauth-private.key
+printf  "$SECRET_VALUE"  | jq -r  '."oauth-public.key"' > oauth-public.key
